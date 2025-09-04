@@ -1,0 +1,337 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Mobile-First Touch Interactions */
+@layer utilities {
+  /* Touch-friendly targets - minimum 44px as per WCAG guidelines */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center relative;
+    /* Ensure touch targets are easily tappable */
+    touch-action: manipulation;
+  }
+
+  /* Enhanced touch interactions */
+  .touch-target:active {
+    @apply scale-95;
+    transition: transform 0.1s ease-in-out;
+  }
+
+  /* Mobile-optimized spacing */
+  .mobile-spacing {
+    @apply space-y-4 md:space-y-6;
+  }
+
+  /* Mobile-friendly card layout */
+  .mobile-card {
+    @apply rounded-lg shadow-sm border bg-card text-card-foreground;
+    @apply p-4 md:p-6;
+  }
+
+  /* Mobile-responsive text sizes */
+  .mobile-title {
+    @apply text-lg md:text-xl lg:text-2xl font-semibold;
+  }
+
+  .mobile-subtitle {
+    @apply text-base md:text-lg font-medium;
+  }
+
+  .mobile-body {
+    @apply text-sm md:text-base;
+  }
+
+  .mobile-caption {
+    @apply text-xs md:text-sm text-muted-foreground;
+  }
+
+  /* Mobile-optimized button styles */
+  .mobile-button {
+    @apply touch-target px-4 py-3 md:px-6 md:py-2 text-sm md:text-base font-medium rounded-lg;
+    @apply transition-all duration-200 ease-in-out;
+    @apply active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .mobile-button-primary {
+    @apply mobile-button bg-primary text-primary-foreground;
+    @apply hover:bg-primary/90 active:bg-primary/80;
+  }
+
+  .mobile-button-secondary {
+    @apply mobile-button bg-secondary text-secondary-foreground;
+    @apply hover:bg-secondary/80 active:bg-secondary/70;
+  }
+
+  /* Mobile-optimized form elements */
+  .mobile-input {
+    @apply min-h-[44px] px-3 py-2 md:px-4 md:py-3 text-sm md:text-base;
+    @apply border border-input bg-background rounded-lg;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent;
+    @apply transition-all duration-200;
+  }
+
+  /* Mobile layout utilities */
+  .mobile-container {
+    @apply container mx-auto px-4 py-4 md:py-6 lg:py-8;
+  }
+
+  .mobile-grid {
+    @apply grid grid-cols-1 gap-4 md:gap-6;
+  }
+
+  .mobile-grid-2 {
+    @apply mobile-grid md:grid-cols-2;
+  }
+
+  .mobile-flex {
+    @apply flex flex-col gap-4 md:flex-row md:gap-6;
+  }
+
+  /* Mobile-first responsive hiding/showing */
+  .mobile-only {
+    @apply block md:hidden;
+  }
+
+  .desktop-only {
+    @apply hidden md:block;
+  }
+
+  .tablet-up {
+    @apply hidden sm:block;
+  }
+
+  /* Mobile-optimized navigation */
+  .mobile-nav {
+    @apply fixed inset-x-0 bottom-0 z-50 bg-background border-t;
+    @apply flex items-center justify-around py-2;
+    @apply safe-area-inset-bottom; /* iOS safe area support */
+  }
+
+  .mobile-nav-item {
+    @apply touch-target flex-1 flex flex-col items-center gap-1;
+    @apply text-xs font-medium text-muted-foreground;
+    @apply transition-colors duration-200;
+  }
+
+  .mobile-nav-item.active {
+    @apply text-primary;
+  }
+
+  /* Mobile-friendly tables */
+  .mobile-table {
+    @apply block md:table w-full;
+  }
+
+  .mobile-table-row {
+    @apply block md:table-row border-b md:border-b-0;
+    @apply p-4 md:p-0 space-y-2 md:space-y-0;
+  }
+
+  .mobile-table-cell {
+    @apply block md:table-cell md:px-4 md:py-3;
+    @apply before:content-[attr(data-label)':'] before:font-medium md:before:content-none;
+    @apply flex justify-between md:block;
+  }
+
+  /* Mobile-optimized loading states */
+  .mobile-skeleton {
+    @apply animate-pulse bg-muted rounded;
+  }
+
+  .mobile-skeleton-text {
+    @apply mobile-skeleton h-4 w-full;
+  }
+
+  .mobile-skeleton-title {
+    @apply mobile-skeleton h-6 w-3/4;
+  }
+
+  .mobile-skeleton-avatar {
+    @apply mobile-skeleton h-12 w-12 md:h-16 md:w-16 rounded-full;
+  }
+
+  /* Mobile-friendly error and success states */
+  .mobile-error {
+    @apply p-3 md:p-4 bg-destructive/10 border border-destructive/20 rounded-lg;
+    @apply text-sm md:text-base text-destructive;
+  }
+
+  .mobile-success {
+    @apply p-3 md:p-4 bg-green-50 border border-green-200 rounded-lg;
+    @apply text-sm md:text-base text-green-700;
+  }
+
+  /* iOS safe area support */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-area-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-area-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Mobile-optimized focus states */
+  .mobile-focus {
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
+  }
+
+  /* Mobile scroll behavior */
+  .mobile-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Mobile-friendly animations */
+  .mobile-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .mobile-fade-in {
+    animation: fadeIn 0.2s ease-out;
+  }
+}
+
+/* Mobile-specific animations */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile-specific scrollbar styling */
+@layer base {
+  /* Hide scrollbar for mobile but keep functionality */
+  .mobile-scroll::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+
+  /* For mobile devices - thin scrollbars */
+  @media (max-width: 768px) {
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 2px;
+    }
+  }
+}
+
+/* Mobile-specific viewport adjustments */
+@supports (height: 100dvh) {
+  .mobile-full-height {
+    height: 100dvh;
+  }
+}
+
+@supports not (height: 100dvh) {
+  .mobile-full-height {
+    height: 100vh;
+  }
+}

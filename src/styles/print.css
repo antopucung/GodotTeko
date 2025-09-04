@@ -1,0 +1,577 @@
+/* Print Styles for UI8 Clone - Invoices, Receipts, and Licenses */
+
+@media print {
+  /* Reset and base styles for print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: white !important;
+    color: black !important;
+    font-family: 'Times New Roman', serif;
+  }
+
+  /* Hide non-printable elements */
+  .no-print,
+  .no-print *,
+  nav,
+  header,
+  footer,
+  .sidebar,
+  .navigation,
+  .menu,
+  .btn,
+  .button,
+  .print-hide,
+  .toast,
+  .modal,
+  .dialog,
+  .dropdown,
+  .tooltip,
+  .notification,
+  .alert:not(.print-show),
+  .banner,
+  .advertisement,
+  .social-share,
+  .cookie-banner,
+  .chat-widget,
+  [data-print="hide"],
+  .keyboard-navigation-provider > *:not(.print-content) {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Show printable content */
+  .print-only,
+  .print-show {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 0.5in;
+
+    @top-center {
+      content: "UI8 Clone - Digital Marketplace";
+      font-size: 8pt;
+      color: #666;
+    }
+
+    @bottom-left {
+      content: "Generated: " counter(page);
+      font-size: 8pt;
+      color: #666;
+    }
+
+    @bottom-right {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 8pt;
+      color: #666;
+    }
+  }
+
+  /* Avoid page breaks inside important elements */
+  .print-together,
+  .invoice-header,
+  .invoice-item,
+  .license-details,
+  .receipt-item,
+  .order-summary,
+  .payment-details,
+  .product-info,
+  blockquote,
+  pre,
+  table {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Force page breaks */
+  .print-page-break,
+  .new-page {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  /* Invoice styles */
+  .invoice,
+  .receipt,
+  .license-document {
+    max-width: 100%;
+    margin: 0;
+    padding: 20pt;
+    background: white;
+    border: none;
+    box-shadow: none;
+  }
+
+  .invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30pt;
+    padding-bottom: 20pt;
+    border-bottom: 2pt solid #000;
+  }
+
+  .invoice-logo {
+    max-width: 150pt;
+    max-height: 60pt;
+  }
+
+  .invoice-info {
+    text-align: right;
+  }
+
+  .invoice-title {
+    font-size: 24pt;
+    font-weight: bold;
+    margin: 0;
+    color: #000 !important;
+  }
+
+  .invoice-number,
+  .invoice-date {
+    font-size: 11pt;
+    margin: 5pt 0;
+    color: #333 !important;
+  }
+
+  /* Customer and billing info */
+  .billing-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 20pt 0;
+  }
+
+  .bill-to,
+  .ship-to {
+    width: 45%;
+  }
+
+  .billing-label {
+    font-weight: bold;
+    font-size: 12pt;
+    margin-bottom: 10pt;
+    color: #000 !important;
+  }
+
+  .billing-address {
+    font-size: 11pt;
+    line-height: 1.3;
+    color: #333 !important;
+  }
+
+  /* Invoice items table */
+  .invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20pt 0;
+  }
+
+  .invoice-table th {
+    background: #f5f5f5 !important;
+    border: 1pt solid #000;
+    padding: 8pt;
+    font-weight: bold;
+    text-align: left;
+    font-size: 11pt;
+  }
+
+  .invoice-table td {
+    border: 1pt solid #ccc;
+    padding: 8pt;
+    font-size: 11pt;
+    vertical-align: top;
+  }
+
+  .invoice-table .item-description {
+    width: 40%;
+  }
+
+  .invoice-table .item-quantity,
+  .invoice-table .item-price,
+  .invoice-table .item-total {
+    width: 15%;
+    text-align: right;
+  }
+
+  .invoice-table .item-sku {
+    width: 15%;
+    font-family: monospace;
+    font-size: 10pt;
+  }
+
+  /* Invoice totals */
+  .invoice-totals {
+    margin-top: 20pt;
+    margin-left: auto;
+    width: 300pt;
+    border-collapse: collapse;
+  }
+
+  .invoice-totals td {
+    padding: 5pt 10pt;
+    border: none;
+    font-size: 11pt;
+  }
+
+  .invoice-totals .total-label {
+    text-align: right;
+    font-weight: bold;
+  }
+
+  .invoice-totals .total-amount {
+    text-align: right;
+    width: 100pt;
+  }
+
+  .invoice-totals .grand-total {
+    border-top: 2pt solid #000;
+    font-weight: bold;
+    font-size: 13pt;
+    background: #f0f0f0 !important;
+  }
+
+  /* Payment information */
+  .payment-info {
+    margin: 30pt 0;
+    padding: 15pt;
+    background: #f9f9f9 !important;
+    border: 1pt solid #ddd;
+  }
+
+  .payment-method,
+  .payment-status {
+    font-size: 11pt;
+    margin: 5pt 0;
+  }
+
+  .payment-method strong,
+  .payment-status strong {
+    color: #000 !important;
+  }
+
+  /* License details */
+  .license-section {
+    margin: 20pt 0;
+    padding: 15pt;
+    border: 1pt solid #000;
+  }
+
+  .license-title {
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 10pt;
+    color: #000 !important;
+  }
+
+  .license-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10pt;
+    font-size: 11pt;
+  }
+
+  .license-item {
+    margin: 3pt 0;
+  }
+
+  .license-label {
+    font-weight: bold;
+    color: #000 !important;
+  }
+
+  .license-value {
+    color: #333 !important;
+  }
+
+  /* Product information */
+  .product-section {
+    margin: 20pt 0;
+    page-break-inside: avoid;
+  }
+
+  .product-title {
+    font-size: 13pt;
+    font-weight: bold;
+    margin-bottom: 8pt;
+    color: #000 !important;
+  }
+
+  .product-description {
+    font-size: 11pt;
+    margin-bottom: 10pt;
+    color: #333 !important;
+  }
+
+  .product-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15pt;
+    font-size: 10pt;
+    color: #666 !important;
+  }
+
+  /* Download links and QR codes */
+  .download-section {
+    margin: 20pt 0;
+    padding: 15pt;
+    background: #f5f5f5 !important;
+    border: 1pt solid #ddd;
+  }
+
+  .download-link {
+    font-family: monospace;
+    font-size: 9pt;
+    word-break: break-all;
+    color: #000 !important;
+    text-decoration: none;
+  }
+
+  .qr-code {
+    max-width: 60pt;
+    max-height: 60pt;
+    float: right;
+    margin-left: 10pt;
+  }
+
+  /* Footer and legal */
+  .invoice-footer {
+    margin-top: 30pt;
+    padding-top: 15pt;
+    border-top: 1pt solid #ccc;
+    font-size: 9pt;
+    color: #666 !important;
+    line-height: 1.3;
+  }
+
+  .legal-notice {
+    font-size: 8pt;
+    color: #666 !important;
+    margin-top: 10pt;
+  }
+
+  /* Receipt specific styles */
+  .receipt {
+    max-width: 300pt;
+    margin: 0 auto;
+    font-family: 'Courier New', monospace;
+  }
+
+  .receipt-header {
+    text-align: center;
+    margin-bottom: 15pt;
+  }
+
+  .receipt-title {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: 5pt;
+  }
+
+  .receipt-date {
+    font-size: 10pt;
+    color: #666 !important;
+  }
+
+  .receipt-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 3pt 0;
+    font-size: 10pt;
+  }
+
+  .receipt-separator {
+    border-top: 1pt dashed #333;
+    margin: 8pt 0;
+  }
+
+  .receipt-total {
+    font-weight: bold;
+    font-size: 12pt;
+    text-align: right;
+    margin-top: 8pt;
+  }
+
+  /* Accessibility for print */
+  .sr-only {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    clip: auto !important;
+    overflow: visible !important;
+    white-space: normal !important;
+  }
+
+  /* Links in print */
+  a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #666 !important;
+  }
+
+  /* Tables general styles */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 6pt;
+  }
+
+  /* Dark mode overrides for print */
+  .dark,
+  .dark *,
+  [data-theme="dark"],
+  [data-theme="dark"] * {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Utility classes for print */
+  .print-center {
+    text-align: center !important;
+  }
+
+  .print-right {
+    text-align: right !important;
+  }
+
+  .print-bold {
+    font-weight: bold !important;
+  }
+
+  .print-large {
+    font-size: 14pt !important;
+  }
+
+  .print-small {
+    font-size: 9pt !important;
+  }
+
+  .print-no-margin {
+    margin: 0 !important;
+  }
+
+  .print-margin-top {
+    margin-top: 15pt !important;
+  }
+
+  .print-border {
+    border: 1pt solid #000 !important;
+  }
+
+  .print-background {
+    background: #f5f5f5 !important;
+  }
+
+  /* Barcode and QR code styles */
+  .barcode,
+  .qr-code {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  /* Special print layouts */
+  .print-two-column {
+    column-count: 2;
+    column-gap: 20pt;
+    column-rule: 1pt solid #ccc;
+  }
+
+  .print-signature-line {
+    border-bottom: 1pt solid #000;
+    width: 200pt;
+    height: 30pt;
+    margin: 20pt 0 5pt 0;
+  }
+
+  .print-signature-label {
+    font-size: 9pt;
+    color: #666 !important;
+  }
+
+  /* Error handling for missing content */
+  .print-error {
+    padding: 10pt;
+    background: #ffe6e6 !important;
+    border: 1pt solid #ff9999;
+    color: #000 !important;
+    font-size: 10pt;
+  }
+
+  /* Print-specific headers and footers */
+  .print-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50pt;
+    background: white;
+    border-bottom: 1pt solid #ccc;
+    padding: 10pt;
+    z-index: 1000;
+  }
+
+  .print-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30pt;
+    background: white;
+    border-top: 1pt solid #ccc;
+    padding: 5pt 10pt;
+    font-size: 8pt;
+    color: #666 !important;
+  }
+
+  /* Content with fixed header/footer */
+  .print-content-with-header {
+    margin-top: 70pt;
+    margin-bottom: 50pt;
+  }
+}
+
+/* Print button styles (visible on screen only) */
+@media screen {
+  .print-button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 10px 0;
+  }
+
+  .print-button:hover {
+    background: #1d4ed8;
+  }
+
+  .print-button:before {
+    content: "🖨️ ";
+  }
+}

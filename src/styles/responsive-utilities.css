@@ -1,0 +1,351 @@
+/* Responsive utility classes matching UI8.net's design patterns */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom utility classes for UI8-like responsive behavior */
+
+@layer utilities {
+  /* Container utilities */
+  .container-ui8 {
+    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 1400px; /* UI8's max content width */
+  }
+
+  /* Typography utilities */
+  .text-hero {
+    @apply text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight;
+  }
+
+  .text-display {
+    @apply text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight;
+  }
+
+  .text-body-large {
+    @apply text-lg sm:text-xl leading-relaxed;
+  }
+
+  /* UI8 specific button styles */
+  .btn-ui8-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg
+           transition-colors duration-200 flex items-center justify-center gap-2;
+  }
+
+  .btn-ui8-secondary {
+    @apply bg-gray-800 hover:bg-gray-700 text-white font-medium px-6 py-3 rounded-lg
+           border border-gray-700 transition-colors duration-200 flex items-center justify-center gap-2;
+  }
+
+  .btn-ui8-ghost {
+    @apply bg-transparent hover:bg-gray-800 text-gray-300 hover:text-white font-medium px-6 py-3 rounded-lg
+           transition-colors duration-200 flex items-center justify-center gap-2;
+  }
+
+  /* Card utilities */
+  .card-ui8 {
+    @apply bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-colors duration-200;
+  }
+
+  .card-ui8-elevated {
+    @apply bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl
+           hover:bg-gray-700 transition-all duration-300;
+  }
+
+  /* Product grid utilities */
+  .grid-products {
+    @apply grid gap-6;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  @screen sm {
+    .grid-products {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @screen lg {
+    .grid-products {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @screen xl {
+    .grid-products {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* Navigation utilities */
+  .nav-ui8 {
+    /*
+    IMPORTANT: Using 'fixed' positioning keeps header at top of viewport always
+    If you change this to 'sticky', the header will scroll with content!
+
+    When header is fixed, ALWAYS ensure main content has proper top padding:
+    - Use 'main-content-fixed-header' class on main/container elements
+    - Or add 'pt-16' manually to match header height (h-16 = 64px)
+    */
+    @apply fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-gray-800;
+  }
+
+  /* Force fixed positioning with higher specificity */
+  header.nav-ui8 {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 9999 !important;
+    width: 100% !important;
+  }
+
+  /*
+  MAIN CONTENT UTILITIES FOR FIXED HEADER
+  Use these classes to prevent content from being hidden behind fixed header
+  */
+
+  /* Primary utility: Adds top padding equal to header height */
+  .main-content-fixed-header {
+    @apply pt-16; /* 64px - same height as header h-16 */
+  }
+
+  /* Alternative utility for pages that need margin instead of padding */
+  .content-below-header {
+    @apply mt-16;
+  }
+
+  /*
+  DEVELOPER GUIDE - PREVENTING HEADER ISSUES:
+
+  1. When using Header component, ALWAYS add proper spacing to main content:
+     ✅ <main className="main-content-fixed-header">
+     ✅ <div className="container main-content-fixed-header">
+     ❌ <main> <!-- Content will be hidden behind header -->
+
+  2. If header height changes, update these values:
+     - .nav-ui8 header uses h-16 (64px)
+     - .main-content-fixed-header uses pt-16 (64px)
+     - Keep them synchronized!
+
+  3. Common mistakes that break header positioning:
+     - Changing position from 'fixed' to 'sticky' or 'relative'
+     - Forgetting to add top padding to main content
+     - Using negative margins that pull content up
+     - CSS specificity conflicts overriding these styles
+  */
+
+  .nav-link-ui8 {
+    @apply text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium
+           transition-colors duration-200;
+  }
+
+  .nav-link-ui8-active {
+    @apply text-white bg-gray-800 px-3 py-2 rounded-md text-sm font-medium;
+  }
+
+  /* Filter utilities */
+  .filter-dropdown {
+    @apply absolute top-full left-0 mt-2 w-64 bg-gray-900 border border-gray-700
+           rounded-lg shadow-xl z-50 max-h-80 overflow-y-auto;
+  }
+
+  .filter-option {
+    @apply flex items-center justify-between p-3 hover:bg-gray-800 cursor-pointer
+           transition-colors duration-150;
+  }
+
+  /* Mobile-specific utilities */
+  .mobile-only {
+    @apply block sm:hidden;
+  }
+
+  .desktop-only {
+    @apply hidden lg:block;
+  }
+
+  .tablet-up {
+    @apply hidden sm:block;
+  }
+
+  /* Scrollbar utilities */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #374151 #1f2937;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: #1f2937;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 3px;
+  }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  /* Interactive states */
+  .interactive {
+    @apply transition-all duration-200 cursor-pointer;
+  }
+
+  .interactive:hover {
+    @apply transform -translate-y-0.5 shadow-lg;
+  }
+
+  .interactive:active {
+    @apply transform translate-y-0;
+  }
+
+  /* Responsive text utilities */
+  .text-responsive-xs {
+    @apply text-xs sm:text-sm;
+  }
+
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+
+  .text-responsive-base {
+    @apply text-base sm:text-lg;
+  }
+
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl lg:text-2xl;
+  }
+
+  /* Spacing utilities for different screen sizes */
+  .spacing-ui8-xs {
+    @apply p-2 sm:p-3 lg:p-4;
+  }
+
+  .spacing-ui8-sm {
+    @apply p-3 sm:p-4 lg:p-6;
+  }
+
+  .spacing-ui8-md {
+    @apply p-4 sm:p-6 lg:p-8;
+  }
+
+  .spacing-ui8-lg {
+    @apply p-6 sm:p-8 lg:p-12;
+  }
+
+  /* Layout utilities */
+  .section-ui8 {
+    @apply py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8;
+  }
+
+  .hero-section-ui8 {
+    @apply py-12 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Form utilities */
+  .input-ui8 {
+    @apply w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg
+           text-white placeholder-gray-400 focus:outline-none focus:ring-2
+           focus:ring-blue-500 focus:border-transparent transition-colors;
+  }
+
+  .select-ui8 {
+    @apply w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg
+           text-white focus:outline-none focus:ring-2 focus:ring-blue-500
+           focus:border-transparent transition-colors appearance-none;
+  }
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Mobile navigation animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive image utilities */
+.aspect-product {
+  aspect-ratio: 4 / 3;
+}
+
+.aspect-hero {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
