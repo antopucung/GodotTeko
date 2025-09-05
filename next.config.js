@@ -7,7 +7,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   experimental: {
-    optimizeCss: true
+    //optimizeCss: true
   },
   serverExternalPackages: ['mongoose'],
   images: {
