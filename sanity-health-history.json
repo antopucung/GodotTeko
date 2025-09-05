@@ -1,0 +1,241 @@
+[
+  {
+    "timestamp": "2025-08-25T11:11:17.069Z",
+    "status": "warning",
+    "duration": 3021,
+    "issueCount": 3,
+    "criticalIssues": 0,
+    "checks": {
+      "connection": {
+        "status": "healthy",
+        "responseTime": 308,
+        "message": "Connection successful"
+      },
+      "schemas": [
+        {
+          "name": "product",
+          "status": "healthy",
+          "responseTime": 212,
+          "count": 15,
+          "message": "15 documents found"
+        },
+        {
+          "name": "category",
+          "status": "healthy",
+          "responseTime": 613,
+          "count": 10,
+          "message": "10 documents found"
+        },
+        {
+          "name": "author",
+          "status": "healthy",
+          "responseTime": 581,
+          "count": 5,
+          "message": "5 documents found"
+        },
+        {
+          "name": "user",
+          "status": "warning",
+          "responseTime": 172,
+          "count": 0,
+          "message": "0 documents found"
+        },
+        {
+          "name": "order",
+          "status": "warning",
+          "responseTime": 176,
+          "count": 0,
+          "message": "0 documents found"
+        }
+      ],
+      "performance": [
+        {
+          "name": "Product List",
+          "status": "warning",
+          "responseTime": 599,
+          "resultCount": 10,
+          "message": "Query completed in 599ms"
+        },
+        {
+          "name": "Category Count",
+          "status": "healthy",
+          "responseTime": 172,
+          "resultCount": 1,
+          "message": "Query completed in 172ms"
+        },
+        {
+          "name": "Recent Products",
+          "status": "healthy",
+          "responseTime": 188,
+          "resultCount": 5,
+          "message": "Query completed in 188ms"
+        }
+      ],
+      "consistency": []
+    }
+  },
+  {
+    "timestamp": "2025-08-25T11:11:36.413Z",
+    "status": "healthy",
+    "responseTime": 255,
+    "resultCount": 3,
+    "message": "Query returned 3 results in 255ms"
+  },
+  {
+    "timestamp": "2025-08-25T11:12:02.432Z",
+    "status": "warning",
+    "duration": 1682,
+    "issueCount": 2,
+    "criticalIssues": 0,
+    "checks": {
+      "connection": {
+        "status": "healthy",
+        "responseTime": 252,
+        "message": "Connection successful"
+      },
+      "schemas": [
+        {
+          "name": "product",
+          "status": "healthy",
+          "responseTime": 173,
+          "count": 15,
+          "message": "15 documents found"
+        },
+        {
+          "name": "category",
+          "status": "healthy",
+          "responseTime": 197,
+          "count": 10,
+          "message": "10 documents found"
+        },
+        {
+          "name": "author",
+          "status": "healthy",
+          "responseTime": 171,
+          "count": 5,
+          "message": "5 documents found"
+        },
+        {
+          "name": "user",
+          "status": "warning",
+          "responseTime": 171,
+          "count": 0,
+          "message": "0 documents found"
+        },
+        {
+          "name": "order",
+          "status": "warning",
+          "responseTime": 177,
+          "count": 0,
+          "message": "0 documents found"
+        }
+      ],
+      "performance": [
+        {
+          "name": "Product List",
+          "status": "healthy",
+          "responseTime": 181,
+          "resultCount": 10,
+          "message": "Query completed in 181ms"
+        },
+        {
+          "name": "Category Count",
+          "status": "healthy",
+          "responseTime": 176,
+          "resultCount": 1,
+          "message": "Query completed in 176ms"
+        },
+        {
+          "name": "Recent Products",
+          "status": "healthy",
+          "responseTime": 183,
+          "resultCount": 5,
+          "message": "Query completed in 183ms"
+        }
+      ],
+      "consistency": []
+    }
+  },
+  {
+    "timestamp": "2025-08-25T11:22:29.538Z",
+    "status": "warning",
+    "duration": 2256,
+    "issueCount": 2,
+    "criticalIssues": 0,
+    "checks": {
+      "connection": {
+        "status": "healthy",
+        "responseTime": 349,
+        "message": "Connection successful"
+      },
+      "schemas": [
+        {
+          "name": "product",
+          "status": "healthy",
+          "responseTime": 589,
+          "count": 15,
+          "message": "15 documents found"
+        },
+        {
+          "name": "category",
+          "status": "healthy",
+          "responseTime": 178,
+          "count": 10,
+          "message": "10 documents found"
+        },
+        {
+          "name": "author",
+          "status": "healthy",
+          "responseTime": 187,
+          "count": 5,
+          "message": "5 documents found"
+        },
+        {
+          "name": "user",
+          "status": "warning",
+          "responseTime": 179,
+          "count": 0,
+          "message": "0 documents found"
+        },
+        {
+          "name": "order",
+          "status": "warning",
+          "responseTime": 191,
+          "count": 0,
+          "message": "0 documents found"
+        }
+      ],
+      "performance": [
+        {
+          "name": "Product List",
+          "status": "healthy",
+          "responseTime": 221,
+          "resultCount": 10,
+          "message": "Query completed in 221ms"
+        },
+        {
+          "name": "Category Count",
+          "status": "healthy",
+          "responseTime": 175,
+          "resultCount": 1,
+          "message": "Query completed in 175ms"
+        },
+        {
+          "name": "Recent Products",
+          "status": "healthy",
+          "responseTime": 186,
+          "resultCount": 5,
+          "message": "Query completed in 186ms"
+        }
+      ],
+      "consistency": []
+    }
+  },
+  {
+    "timestamp": "2025-08-26T04:09:23.685Z",
+    "status": "healthy",
+    "responseTime": 256,
+    "resultCount": 3,
+    "message": "Query returned 3 results in 256ms"
+  }
+]

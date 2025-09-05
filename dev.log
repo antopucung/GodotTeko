@@ -1,0 +1,16 @@
+nohup: ignoring input
+$ bunx next dev -H 0.0.0.0 -p 3333 --turbopack
+   ▲ Next.js 15.3.2 (Turbopack)
+   - Local:        http://localhost:3333
+   - Network:      http://0.0.0.0:3333
+   - Environments: .env.local
+
+ ✓ Starting...
+ ⚠ Invalid next.config.js options detected: 
+ ⚠     Unrecognized key(s) in object: 'missingSuspenseWithCSRBailout' at "experimental"
+ ⚠     Unrecognized key(s) in object: 'ignoreDuringBuilds' at "typescript"
+ ⚠     Unrecognized key(s) in object: 'lint'
+ ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+ ○ Compiling middleware ...
+ ✓ Compiled middleware in 721ms
+ ✓ Ready in 1765ms

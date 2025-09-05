@@ -1,0 +1,236 @@
+name: Lighthouse CI Performance Testing
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  lighthouse-ci:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        # Test multiple device types
+        device: ['desktop', 'mobile']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history for better performance analysis
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.bun/install/cache
+            node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build application
+        run: |
+          bun run build:production
+        env:
+          # Use production-like environment variables
+          NODE_ENV: production
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+          NEXT_PUBLIC_USE_MOCK_DATA: true
+          DISABLE_ESLINT_PLUGIN: true
+          SKIP_ENV_VALIDATION: 1
+
+      - name: Wait for server to be ready
+        run: |
+          # Start the server in the background
+          bun run start &
+          SERVER_PID=$!
+
+          # Wait for server to be ready (max 60 seconds)
+          timeout 60 bash -c 'until curl -f http://localhost:3000 > /dev/null 2>&1; do sleep 1; done'
+
+          # Keep server running for Lighthouse tests
+          echo "SERVER_PID=$SERVER_PID" >> $GITHUB_ENV
+
+      - name: Run Lighthouse CI (Desktop)
+        if: matrix.device == 'desktop'
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          configPath: './lighthouserc.js'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Run Lighthouse CI (Mobile)
+        if: matrix.device == 'mobile'
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          configPath: './lighthouserc.mobile.js'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Stop server
+        if: always()
+        run: |
+          if [ ! -z "$SERVER_PID" ]; then
+            kill $SERVER_PID || true
+          fi
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: lighthouse-reports-${{ matrix.device }}
+          path: |
+            .lighthouseci/
+            lhci_reports/
+          retention-days: 30
+
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            // Read Lighthouse results
+            const resultsPath = '.lighthouseci/lhr-*.json';
+            const glob = require('glob');
+            const files = glob.sync(resultsPath);
+
+            if (files.length === 0) {
+              console.log('No Lighthouse results found');
+              return;
+            }
+
+            let comment = `## 🚀 Lighthouse CI Results (${{ matrix.device }})\n\n`;
+
+            files.forEach(file => {
+              const result = JSON.parse(fs.readFileSync(file, 'utf8'));
+              const { categories, finalUrl } = result;
+
+              comment += `### ${finalUrl}\n`;
+              comment += `| Category | Score | Status |\n`;
+              comment += `|----------|-------|--------|\n`;
+
+              Object.entries(categories).forEach(([key, category]) => {
+                const score = Math.round(category.score * 100);
+                const emoji = score >= 90 ? '🟢' : score >= 70 ? '🟡' : '🔴';
+                comment += `| ${category.title} | ${score} | ${emoji} |\n`;
+              });
+
+              comment += '\n';
+            });
+
+            comment += `\n📊 [View detailed reports](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n`;
+
+            // Post comment on PR
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  # Job to check for performance regressions
+  performance-regression-check:
+    runs-on: ubuntu-latest
+    needs: lighthouse-ci
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Download Lighthouse artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: lighthouse-reports-desktop
+          path: ./current-reports
+
+      - name: Check for performance regressions
+        run: |
+          # This would compare against baseline metrics
+          # Implementation depends on your storage solution
+          echo "🔍 Checking for performance regressions..."
+
+          # Example: Compare Core Web Vitals against thresholds
+          node -e "
+            const fs = require('fs');
+            const glob = require('glob');
+
+            const files = glob.sync('./current-reports/.lighthouseci/lhr-*.json');
+            let hasRegression = false;
+
+            files.forEach(file => {
+              const result = JSON.parse(fs.readFileSync(file, 'utf8'));
+              const { audits } = result;
+
+              // Check Core Web Vitals thresholds
+              const checks = [
+                { key: 'first-contentful-paint', threshold: 1500, name: 'First Contentful Paint' },
+                { key: 'largest-contentful-paint', threshold: 2500, name: 'Largest Contentful Paint' },
+                { key: 'cumulative-layout-shift', threshold: 0.1, name: 'Cumulative Layout Shift' },
+                { key: 'total-blocking-time', threshold: 300, name: 'Total Blocking Time' }
+              ];
+
+              checks.forEach(check => {
+                const audit = audits[check.key];
+                if (audit && audit.numericValue > check.threshold) {
+                  console.log('❌ REGRESSION:', check.name, 'is', audit.numericValue, '(threshold:', check.threshold + ')');
+                  hasRegression = true;
+                } else if (audit) {
+                  console.log('✅ PASS:', check.name, 'is', audit.numericValue, '(threshold:', check.threshold + ')');
+                }
+              });
+            });
+
+            if (hasRegression) {
+              process.exit(1);
+            }
+          "
+
+      - name: Performance regression detected
+        if: failure()
+        run: |
+          echo "::error::Performance regression detected! Please review the Lighthouse reports."
+          exit 1
+
+  # Notify team of performance results
+  notify-results:
+    runs-on: ubuntu-latest
+    needs: [lighthouse-ci, performance-regression-check]
+    if: always() && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Notify Slack (if configured)
+        if: env.SLACK_WEBHOOK_URL
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{\"text\":\"🚀 Lighthouse CI completed for Godot Tekko. Check results at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
