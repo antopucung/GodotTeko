@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { reportServerMessage } from '@/sentry.server.config'
+// Sentry disabled for production build import { reportServerMessage } from '@/sentry.server.config'
 
 interface AnalyticsEvent {
   eventType: string
