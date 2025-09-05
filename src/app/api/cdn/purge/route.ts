@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { cdnManager } from '@/lib/cdn-integration'
-import { reportServerMessage } from '@/sentry.server.config'
+// Sentry disabled for production build import { console.log } from '@/sentry.server.config'
 
 interface PurgeRequest {
   urls?: string[]
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Log the purge operation
-    reportServerMessage(
+    console.log(
       'CDN cache purge initiated',
       'info',
       {
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('CDN purge error:', error)
 
-    reportServerMessage(
+    console.log(
       'CDN cache purge failed',
       'error',
       {
