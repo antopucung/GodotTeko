@@ -7,7 +7,9 @@ import { getPartnerCommissionRate } from '@/config/platform'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params
 ) {
   try {
     const session = await getServerSession(authOptions)
