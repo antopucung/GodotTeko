@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-// Sentry disabled for production build import { reportServerMessage } from '@/sentry.server.config'
+// Sentry disabled for production build import { console.log } from '@/sentry.server.config'
 
 interface AnalyticsEvent {
   eventType: string
@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
 
     // Log analytics reception for monitoring
     if (payload.events.length > 0 || payload.metrics.length > 0) {
-      reportServerMessage(
+      console.log(
         `Analytics received: ${payload.events.length} events, ${payload.metrics.length} metrics`,
         'info',
         {
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Analytics processing error:', error)
 
-    reportServerMessage(
+    console.log(
       'Analytics processing failed',
       'error',
       {
@@ -244,7 +244,7 @@ async function processPerformanceMetric(metric: PerformanceMetric) {
       const threshold = performanceThresholds[metric.name as keyof typeof performanceThresholds]
 
       if (metric.value > threshold) {
-        reportServerMessage(
+        console.log(
           `Performance threshold exceeded: ${metric.name}`,
           'warning',
           {
@@ -284,7 +284,7 @@ async function processPerformanceEvent(event: AnalyticsEvent) {
 
 async function processErrorEvent(event: AnalyticsEvent) {
   // Track JavaScript errors for analysis
-  reportServerMessage(
+  console.log(
     `Frontend error: ${event.eventName}`,
     'error',
     {
