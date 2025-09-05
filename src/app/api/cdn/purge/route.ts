@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { cdnManager } from '@/lib/cdn-integration'
-import { reportServerMessage } from '@/sentry.server.config'
+
 
 interface PurgeRequest {
   urls?: string[]
