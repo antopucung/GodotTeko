@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { SessionProvider, useSession } from 'next-auth/react'
 import { CartProvider } from '@/context/CartContext'
 import { RecentlyViewedProvider } from '@/context/RecentlyViewedContext'
-import { Sentry, setUserContext } from '@/sentry.client.config'
+// Sentry disabled for production build import { Sentry, setUserContext } from '@/sentry.client.config'
 import { analytics } from '@/lib/analytics-engine'
 import { abTesting } from '@/lib/ab-testing'
 import { cdnManager, CDN_CONFIGS } from '@/lib/cdn-integration'
@@ -66,13 +66,15 @@ function EnhancedSessionHandler() {
 
   useEffect(() => {
     if (status === 'authenticated' && session?.user) {
+      
       // Set user context for Sentry
-      setUserContext({
-        id: session.user.id,
-        email: session.user.email || undefined,
-        username: session.user.name || undefined,
-        role: session.user.role
-      })
+      // Sentry disabled for production build
+      // setUserContext({
+      //   id: session.user.id,
+      //   email: session.user.email || undefined,
+      //   username: session.user.name || undefined,
+      //   role: session.user.role
+      // })
 
       // Set user for analytics
       analytics.setUser(session.user.id, {
